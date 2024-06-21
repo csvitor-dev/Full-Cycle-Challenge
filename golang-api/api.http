@@ -1,0 +1,27 @@
+@HostAddress = http://localhost:3000
+@EventId = ...
+
+###
+
+GET {{HostAddress}}/events 
+
+###
+
+GET {{HostAddress}}/{{EventId}}
+
+###
+
+POST {{HostAddress}}/event/{{EventId}}/reserve HTTP/1.1
+Content-Type: application/json
+{
+    "name": "Tech Conference 2025",
+    "location": "Convention Center",
+    "organization": "Tech Innovators Inc.",
+    "rating": "L14",
+    "date": "2024-09-15T09:00:00Z",
+    "capacity": 500,
+    "price": 150.0,
+    "partner_id": 2,
+    "image_url": "http://example.com/image.jpg",
+    "spots": ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"]
+}
