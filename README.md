@@ -9,7 +9,7 @@
 
 ## Challenge 01 - Criando API de reserva de ingressos com Nest.js
 
-...
+Parcialmente feito, explorando os conceitos de [_Validation_](https://docs.nestjs.com/techniques/validation) e [_Exception Filters_](https://docs.nestjs.com/exception-filters) no **Nest.js**.
 
 ## Challenge 02 - Construindo API com Golang
 
