@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:3000
-@EventId = ...
+@EventId = 1
 
 ###
 
@@ -8,6 +8,10 @@ GET {{HostAddress}}/events
 ###
 
 GET {{HostAddress}}/{{EventId}}
+
+###
+
+GET {{HostAddress}}/{{EventId}}/spots
 
 ###
 

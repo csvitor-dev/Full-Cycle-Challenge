@@ -3,27 +3,17 @@ package models
 import (
 	"errors"
 	"time"
-
-	"github.com/google/uuid"
-)
-
-var (
-	ErrInvalidEvent    = errors.New("invalid event data")
-	ErrEventFull       = errors.New("event is full")
-	ErrTicketNotFound  = errors.New("ticket not found")
-	ErrTicketNotEnough = errors.New("not enough tickets available")
-	ErrEventNotFound   = errors.New("event not found")
 )
 
 type Rating string
 
 const (
 	RatingLivre Rating = "L"
-	Rating10    Rating = "L10"
-	Rating12    Rating = "L12"
-	Rating14    Rating = "L14"
-	Rating16    Rating = "L16"
-	Rating18    Rating = "L18"
+	Rating10    Rating = "10"
+	Rating12    Rating = "12"
+	Rating14    Rating = "14"
+	Rating16    Rating = "16"
+	Rating18    Rating = "18"
 )
 
 type Event struct {
@@ -36,30 +26,9 @@ type Event struct {
 	ImageURL     string
 	Capacity     int
 	Price        float64
-	PartnerID    int
+	PartnerID    string
 	Spots        []Spot
 	Tickets      []Ticket
-}
-
-// constructor
-func NewEvent(name, location, organization string, rating Rating, date time.Time, capacity int, price float64, imageUrl string, partnerID int) (*Event, error) {
-	event := &Event{
-		ID:           uuid.New().String(),
-		Name:         name,
-		Location:     location,
-		Organization: organization,
-		Rating:       rating,
-		Date:         date,
-		Capacity:     capacity,
-		Price:        price,
-		ImageURL:     imageUrl,
-		PartnerID:    partnerID,
-		Spots:        make([]Spot, 0),
-	}
-	if err := event.Validate(); err != nil {
-		return nil, err
-	}
-	return event, nil
 }
 
 // methods
@@ -78,14 +47,4 @@ func (e *Event) Validate() error {
 	}
 
 	return nil
-}
-
-// AddSpot adds a spot to the event.
-func (e *Event) AddSpot(name string) (*Spot, error) {
-	spot, err := NewSpot(e, name)
-	if err != nil {
-		return nil, err
-	}
-	e.Spots = append(e.Spots, *spot)
-	return spot, nil
 }
