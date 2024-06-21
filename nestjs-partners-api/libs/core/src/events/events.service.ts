@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { ReserveSpotDto } from './dto/reserve-spot.dto';
@@ -58,8 +58,16 @@ export class EventsService {
       const notFoundSpotsName = dto.spots.filter(
         (spotName) => !foundSpotsName.includes(spotName),
       );
-      throw new Error(`Spots ${notFoundSpotsName.join(', ')} not found`);
+      throw new HttpException(
+        `Spots not exists: ${notFoundSpotsName.join(', ')}`,
+        HttpStatus.NOT_FOUND,
+      );
     }
+    if (spots.some((spot) => spot.status === SpotStatus.reserved))
+      throw new HttpException(
+        `Spots {${spots.join(', ')}} is not available for reservation`,
+        HttpStatus.BAD_REQUEST,
+      );
 
     try {
       const tickets = await this.prismaService.$transaction(
@@ -106,10 +114,11 @@ export class EventsService {
         switch (e.code) {
           case 'P2002': // unique constraint violation
           case 'P2034': // transaction conflict
-            throw new Error('Some spots are already reserved');
+            throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
         }
       }
-      throw e;
+
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 }

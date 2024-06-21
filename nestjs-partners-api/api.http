@@ -1,4 +1,6 @@
 @HostAddress = http://localhost:3000
+@EventId = c03b6495-12d1-4c07-96d5-2150ae910565
+
 ###
 GET {{HostAddress}}/events
 
@@ -8,21 +10,17 @@ POST {{HostAddress}}/events
 Content-Type: application/json
 
 {
-    "name": "New Event Test",
-    "description": "This is a new event test",
-    "date": "2017-01-01T00:00:00",
-    "price": 150
+    "name": "20",
+    "description": "testando",
+    "date": "2024/05/12",
+    "price": -25
 }
 
 ###
-
-@eventId = {{ createEvent.response.body.id }}
-
-###
-GET {{HostAddress}}/events/{{ eventId }}
+GET {{HostAddress}}/events/{{ EventId }}
 
 ###
-PATCH {{HostAddress}}/events/{{ eventId }}
+PATCH {{HostAddress}}/events/{{ EventId }}
 Content-Type: application/json
 
 {
@@ -33,25 +31,25 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{HostAddress}}/events/{{ eventId }}
+DELETE {{HostAddress}}/events/{{ EventId }}
 
 ###
-GET {{HostAddress}}/events/{{eventId}}/spots
+GET {{HostAddress}}/events/{{ EventId }}/spots
 
 ###
 # @name createSpot
-POST {{HostAddress}}/events/{{eventId}}/spots
+POST {{HostAddress}}/events/{{ EventId }}/spots
 Content-Type: application/json
 
 {
-  "name": "A5"
+  "name": "C1"
 }
 
 ###
 @spotName = {{ createSpot.response.body.name }}
 
 ###
-POST {{HostAddress}}/events/{{eventId}}/reserve
+POST {{HostAddress}}/events/{{ EventId }}/reserve
 Content-Type: application/json
 X-Api-Token: 123
 
