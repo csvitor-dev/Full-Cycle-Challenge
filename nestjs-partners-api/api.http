@@ -1,0 +1,62 @@
+@HostAddress = http://localhost:3000
+###
+GET {{HostAddress}}/events
+
+###
+# @name createEvent
+POST {{HostAddress}}/events
+Content-Type: application/json
+
+{
+    "name": "New Event Test",
+    "description": "This is a new event test",
+    "date": "2017-01-01T00:00:00",
+    "price": 150
+}
+
+###
+
+@eventId = {{ createEvent.response.body.id }}
+
+###
+GET {{HostAddress}}/events/{{ eventId }}
+
+###
+PATCH {{HostAddress}}/events/{{ eventId }}
+Content-Type: application/json
+
+{
+    "name": "New Event",
+    "description": "This is a new event",
+    "date": "2017-01-01T00:00:00",
+    "price": 100
+}
+
+###
+DELETE {{HostAddress}}/events/{{ eventId }}
+
+###
+GET {{HostAddress}}/events/{{eventId}}/spots
+
+###
+# @name createSpot
+POST {{HostAddress}}/events/{{eventId}}/spots
+Content-Type: application/json
+
+{
+  "name": "A5"
+}
+
+###
+@spotName = {{ createSpot.response.body.name }}
+
+###
+POST {{HostAddress}}/events/{{eventId}}/reserve
+Content-Type: application/json
+X-Api-Token: 123
+
+{
+  "spots": ["{{ spotName }}"],
+  "ticket_kind": "full",
+  "email": "test@test.com"
+}
