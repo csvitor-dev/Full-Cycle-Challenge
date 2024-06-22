@@ -17,18 +17,16 @@ const (
 )
 
 type Event struct {
-	ID           string
-	Name         string
-	Location     string
-	Organization string
-	Rating       Rating
-	Date         time.Time
-	ImageURL     string
-	Capacity     int
-	Price        float64
-	PartnerID    string
-	Spots        []Spot
-	Tickets      []Ticket
+	ID           int `json:"id"`
+	Name         string `json:"name"`
+	Location     string `json:"location"`
+	Organization string `json:"organization"`
+	Rating       Rating `json:"rating"`
+	Date         time.Time `json:"date"`
+	ImageURL     string `json:"image_url"`
+	Price        float64 `json:"price"`
+	Spots        []Spot `json:"spots"`
+	CreateAt time.Time `json:"created_at"`
 }
 
 // methods
@@ -38,9 +36,6 @@ func (e *Event) Validate() error {
 	}
 	if e.Date.Before(time.Now()) {
 		return errors.New("event date must be in the future")
-	}
-	if e.Capacity <= 0 {
-		return errors.New("event capacity must be greater than zero")
 	}
 	if e.Price <= 0 {
 		return errors.New("event price must be greater than zero")

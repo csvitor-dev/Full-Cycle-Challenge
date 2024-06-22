@@ -7,15 +7,14 @@ import (
 	"os"
 
 	"github.com/csvitor-dev/Full-Cycle-Challenge/golang-api/models"
-	"github.com/gorilla/mux"
 )
 
-type EventOutPutDTO struct {
+type DataOutPutDTO struct {
 	Events []models.Event `json:"events"`
 	Spots []models.Spot `json:"spots"`
 }
 
-var globalData EventOutPutDTO
+var globalData DataOutPutDTO
 
 func loadData() {
 	data, err := os.Open("./data.json")
@@ -39,21 +38,11 @@ func listEvents(w http.ResponseWriter, r *http.Request) {
 }
 // GET /events/:eventId
 func findEvent(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
-    for _, item := range globalData.Events {
-        log.Println(item)
-		if item.ID == params["id"] {
-            json.NewEncoder(w).Encode(item)
-            return
-        }
-    }
-    http.NotFound(w, r)
+
 }
 // GET /events/:eventId/spots
 func listSpots(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(globalData.Spots)
+
 }
 // POST /event/:eventId/reserve
 func reserveSpots(w http.ResponseWriter, r *http.Request) {

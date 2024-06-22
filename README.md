@@ -13,4 +13,4 @@ Parcialmente feito, explorando os conceitos de [_Validation_](https://docs.nestj
 
 ## Challenge 02 - Construindo API com Golang
 
-...
+Parcialmente feito, explorando os pacotes `"net/http"`, `"encoding/json"` e `"os"`  do **Golang**.
